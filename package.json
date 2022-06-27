@@ -15,7 +15,7 @@
     "nodemon": "^2.0.16"
   },
   "scripts": {
-    "start": "nodemon bot.js",
+    "start": "node bot.js",
     "bot": "nodemon bot.js"
   },
   "keywords": [],
