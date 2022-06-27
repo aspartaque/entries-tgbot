@@ -29,7 +29,7 @@ class ScenesGenerator {
         ctx.session.name = ctx.scene.state.name;
         ctx.session.tel = ctx.message.text;
         await ctx.reply(`Ваше имя ${ctx.session.name}, Ваш номер телефона ${ctx.session.tel}`);
-        await ctx.reply('Ваши контактные данные записаны! Нажмите на /get чтобы показать дни');
+        await ctx.reply('Ваши контактные данные записаны! Нажмите на /calendar чтобы показать дни');
         await ctx.scene.leave();
       } else {
         await ctx.reply('Пиши номер телефона, а не команду');

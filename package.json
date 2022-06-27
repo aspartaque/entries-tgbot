@@ -12,7 +12,8 @@
     "telegraf-session-local": "^2.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "telegraf-calendar-telegram": "^1.5.9"
   },
   "scripts": {
     "start": "node bot.js",
