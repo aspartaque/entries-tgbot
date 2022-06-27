@@ -8,6 +8,10 @@ const nameScene = curScene.UserName();
 const telScene = curScene.UserTel();
 const LocalSession = require('telegraf-session-local');
 
+const Entries = require('./models');
+
+const sequelize = require('./connect');
+
 
 const msg = static.text;
 const result = {
@@ -27,7 +31,15 @@ bot.use((new LocalSession({ database: 'db.json' })).middleware())
 bot.use(session(), stage.middleware())
 
 
-bot.start((ctx) => {
+bot.start(async (ctx) => {
+  try {
+    await sequelize.authenticate();
+    await sequelize.sync();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+
   ctx.scene.enter('fio');
 })
 
@@ -153,8 +165,19 @@ function pickTime(timeName) {
       result.user.tel = ctx.session.tel;
       result.cart.time = timeName;
       ctx.session = result;
-      console.log(ctx.session);
-      ctx.reply('Вы записаны в ' + result.cart.day + ', в ' + result.cart.time + '!');
+      Entries.create({id:result.user.id,user_name:result.user.name,user_tel:result.user.tel,entry_day:result.cart.day,entry_time:result.cart.time}).then(res=>{
+        const user = {
+          id: res.id, 
+          user_name: res.user_name, 
+          user_tel: res.user_tel,
+          entry_day: res.entry_day,
+          entry_time: res.entry_time,
+        }
+        console.log(user);
+      }).catch(err=>console.log(err));
+        await sequelize.sync();
+        ctx.reply('Вы записаны в ' + result.cart.day + ', в ' + result.cart.time + '!');
+        return true;
     } catch(e) {
       console.error(e)
     }
